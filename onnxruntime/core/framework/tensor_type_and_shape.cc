@@ -136,9 +136,9 @@ ORT_API(enum ONNXType, OrtGetValueType, _In_ const OrtValue* value) {
   try {
     auto v = reinterpret_cast<const ::onnxruntime::MLValue*>(value);
     onnxruntime::MLDataType type = v->Type();
-    OrtTypeInfo* out;
+    OrtTypeInfo* out = nullptr;
     OrtStatus* ptr = OrtTypeInfo::FromDataTypeImpl(type, nullptr, nullptr, &out);
-    if (ptr != nullptr) {
+    if (ptr != nullptr || out == nullptr) {
       OrtReleaseStatus(ptr);
       return ONNX_TYPE_UNKNOWN;
     }
